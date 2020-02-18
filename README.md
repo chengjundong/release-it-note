@@ -31,3 +31,9 @@
 ## 事后分析
 * 一般从最后一次change开始着手
 * 通常，处理一个事故后大家的看法，同处理事故本身一样重要
+## 测试
+* 一个可以复现bug的测试，应该作为bug fix的指标
+## Cynical Software
+* Don't trust anyone, even itself
+* Expect bad things to happen and never suprise
+* Won't keep "intimate" relationship with other system

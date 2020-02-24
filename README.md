@@ -37,3 +37,12 @@
 * Don't trust anyone, even itself
 * Expect bad things to happen and never suprise
 * Won't keep "intimate" relationship with other system
+## 术语
+### transaction
+有别于数据库事务，这里的transcation是指对于系统来说，一个最小的工作单元（unit of work）。举例，对于电子商务系统，一个transcation就是用户购买一个商品并完成支付。整个过程可能涉及多个系统，甚至是外部系统。
+### impulse
+脉冲，来自机械工程的词汇。特指对于系统的瞬时冲击，比如一条庆祝网站生日的tweet，会带来一波很高的瞬时流量。这就是一次冲击。
+### stress
+压力，同样来自机械工程的词汇。指对于系统，长时间的影响。比如一段时间内，来自银行系统的反馈速度很慢，会导致支付环节有很大的压力。
+### 不出错时间
+系统应该在很长一段时间内，一直可以处理transaction。如何定义很长一段时间呢？通用标准是code deployment的间隔。举例来说，如果一个系统1周部署一次，就不需要考虑是否可以持续运行2年不重启。

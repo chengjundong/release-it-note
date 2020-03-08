@@ -58,3 +58,13 @@
 
 如果做不到上述的，那么production就是lonevity test的环境了 :-)
 
+## Stop the crack
+系统错误就像盘子上的裂缝。一开始是一条，后来越来越多，直到碎裂。  
+系统必须考虑如何在一开始就发现并制止failure progatation。  
+耦合越紧，越有可能发生错误传递，由一个小错误，最终导致整个系统崩溃。  
+
+# 不稳定的设计模式
+## 系统集成
+1. REST API中，避免使用client lib，将response直接转成domain object。应该确认response是否符合你的预期，然后进行转换。
+2. 避免使用client lib的另一个好处是，你可以自己控制诸如超时，endpoint等
+3. 

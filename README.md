@@ -78,3 +78,16 @@
 5. 在Cloud环境中，scalar能否快速切断宕机的机器，并且重新挂载新的node，成为对付这个问题的关键
 6. Bulkhead(隔离壁) 模式，可以避免连锁反应，但是没法拯救宕机服务器上的流量
 7. 对于client端，应该采用断路器。避免下游出现宕机引起的连锁反应后，对下游继续增加压力
+
+## 线程阻塞
+1. 开发阶段，几乎不可能测试到大量并发情况下才会出现的阻塞现象。需要找到一种，各个thread都能获取数据的方法，而不是互相block
+2. 对于domain object，尽量使其immutable，就不需要为其加锁了。使用[CQRS模式](https://martinfowler.com/bliki/CQRS.html) 避免并发操作的问题，其被大量应用于Event Sourcing的系统中
+
+## 缓存
+1. monitor cache size
+2. monitor hit rate
+3. 避免cache一些很容易创建的对象 （创建cost很小）
+4. 缓存应该使用weak reference，以便系统在memory不足时予以回收
+5. 防止 dogpile，即缓存过期时正好遇上大量request。此时需要采用first one策略，即只有一个访问可以到达数据库，其他的会被锁block。当访问数据的结果返回后，写入cache中，后续得到锁的thread需要先检查cache。通常，使用semaphore lock。
+6. 访问资源时，需要合理设置timeout
+7. blocked thread常发生于集成测试的结合处

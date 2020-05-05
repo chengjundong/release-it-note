@@ -91,3 +91,17 @@
 5. 防止 dogpile，即缓存过期时正好遇上大量request。此时需要采用first one策略，即只有一个访问可以到达数据库，其他的会被锁block。当访问数据的结果返回后，写入cache中，后续得到锁的thread需要先检查cache。通常，使用semaphore lock。
 6. 访问资源时，需要合理设置timeout
 7. blocked thread常发生于集成测试的结合处
+
+## Self-denial
+人为操作可以导致系统崩溃，比如，一个电商网站想要售卖一个“爆款”，于是它发送了一封promote email
+1. 发送对象是所有用户
+2. 内嵌了一个URL，不幸的是，这个URL是一个内部使用的（所有resource request会直接访问resource storage）
+3. 也许URL里还隐含了session信息
+
+大量的客流会导致你的网站崩溃。。。  
+
+可以应对的措施
+1. 利用云技术进行autoscale，尽管如此，依然推荐进行pre-autoscale以应对大客流
+2. 注意邮件里内嵌的URL，它应该首先访问一个静态资源页面
+3. share-nothing架构，即集群中的各个节点没有互相依赖关系，没有共享的resource
+4. 发送邮件的目前人数并不等于访问链接的人数，不要低估邮件被转发的次数，如果这是一个真的“爆款”
